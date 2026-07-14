@@ -17,6 +17,7 @@ embeddings = embedder.embed_documents(chunks)
 
 vector_store.create_index(embeddings, chunks)
 
+vector_store.save_index()
 query = "What optimizer was used?"
 
 query_embedding = embedder.embed_query(query)
