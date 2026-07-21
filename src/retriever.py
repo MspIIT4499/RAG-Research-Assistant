@@ -1,5 +1,4 @@
 from src.embeddings import EmbeddingModel
-from src.vector_store import VectorStore
 
 
 class Retriever:
@@ -7,21 +6,20 @@ class Retriever:
     Retrieves the most relevant document chunks for a query.
     """
 
-    def __init__(self):
+    def __init__(self, vector_store, embedder=None):
 
-        self.embedder = EmbeddingModel()
+        self.vector_store = vector_store
 
-        self.vector_store = VectorStore()
-
-        self.vector_store.load_index()
+        if embedder is None:
+            self.embedder = EmbeddingModel()
+        else:
+            self.embedder = embedder
 
     def retrieve(self, query, k=5):
 
         query_embedding = self.embedder.embed_query(query)
 
-        results = self.vector_store.search(
+        return self.vector_store.search(
             query_embedding,
             k=k
         )
-
-        return results
